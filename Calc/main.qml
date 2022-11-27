@@ -166,9 +166,122 @@ Window {
                 text: qsTr("Del")
             }
 
+            Button {
+                id: btnRecipical
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+                text: qsTr("1/x")
+            }
+
+            Button {
+                id: btnPower2
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+                text: qsTr("x * x")
+            }
+
+            Button {
+                id: btnRoot2
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+                text: qsTr("sqrt x")
+            }
+
+            Button {
+                id: btnDivide
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+                text: qsTr("/")
+            }
+
+            Button {
+                id: btnSeven
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+                text: qsTr("7")
+            }
+
+            Button {
+                id: btnEight
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+                text: qsTr("8")
+            }
+
+            Button {
+                id: btnNine
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+                text: qsTr("9")
+            }
+
+            Button {
+                id: btnMultiply
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+                text: qsTr("*")
+            }
+
+            Button {
+                id: btnFour
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+                text: qsTr("4")
+            }
+
+            Button {
+                id: btnFive
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+                text: qsTr("5")
+            }
+
+            Button {
+                id: btnSix
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+                text: qsTr("6")
+            }
+
+            Button {
+                id: btnSubstract
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+                text: qsTr("-")
+            }
+
+            Button {
+                id: btnOne
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+                text: qsTr("1")
+            }
+
+            Button {
+                id: btnTwo
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+                text: qsTr("2")
+            }
+
+            Button {
+                id: btnThree
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+                text: qsTr("3")
+            }
+
+            //
+
 
 
         }
     }
 }
 
+
+/*##^##
+Designer {
+    D{i:0;formeditorZoom:0.5}
+}
+##^##*/
