@@ -5,7 +5,7 @@ Window {
     id: mainWindow
     width: 320
     height: 480
-    opacity: 0.9
+    opacity: 0.99
     visible: true
     flags: Qt.Window
     minimumHeight: 480
@@ -78,13 +78,39 @@ Window {
             id: output
             width: mainWindowsLayout.width
             height: 100
+
+            Text {
+                id: lblUserInput
+                text: qsTr("Text_asdsad")
+                width: parent.width
+                anchors.right: parent.right
+                font.pixelSize: 14
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                anchors.rightMargin: 0
+                anchors.topMargin: 0
+            }
+
+            TextEdit {
+                id: teUserInput
+                width: parent.width
+                height: parent.height / 2
+                color: "#000000"
+                text: qsTr("1230")
+                anchors.right: parent.right
+                font.pixelSize: 36
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                anchors.rightMargin: 0
+                anchors.topMargin: 16
+                readOnly: true
+            }
         }
 
         Row {
             id: memory
             width: mainWindowsLayout.width
             height: 30
-            // Row style for button adding
 
             Button {
                 id: btnMemoryClearAll
@@ -99,7 +125,6 @@ Window {
                 height: parent.height
                 text: qsTr("MR")
             }
-
 
             Button {
                 id: btnMemoryAdd
@@ -271,9 +296,40 @@ Window {
                 text: qsTr("3")
             }
 
-            //
+            Button {
+                id: btnAddition
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+                text: qsTr("+")
+            }
 
+            Button {
+                id: btnNegate
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+                text: qsTr("+/-")
+            }
 
+            Button {
+                id: btnZero
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+                text: qsTr("0")
+            }
+
+            Button {
+                id: btnDot
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+                text: qsTr(".")
+            }
+
+            Button {
+                id: btnEquals
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+                text: qsTr("=")
+            }
 
         }
     }
