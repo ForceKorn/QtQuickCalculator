@@ -1,8 +1,16 @@
 import QtQuick
-import QtQuick.Controls 6.3
+import QtQuick.Controls
 
-Window {
+Window
+{
     id: mainWindow
+
+    property string operation: '#';
+    property double calculationResult: 0;
+    property double argument1: 0;
+    property double argument2: 0;
+    property bool   isOverwritableState: true;
+
     width: 320
     height: 480
     opacity: 0.99
@@ -13,7 +21,8 @@ Window {
     color: "red"
     title: qsTr("Calculator")
 
-    Column {
+    Column
+    {
         id: mainWindowsLayout
         anchors.fill: parent
         anchors.topMargin: 5
@@ -74,14 +83,16 @@ Window {
 
         }
 
-        Column {
+        Column
+        {
             id: output
             width: mainWindowsLayout.width
             height: 100
 
-            Text {
+            Text
+            {
                 id: lblUserInput
-                text: qsTr("Text_asdsad")
+                text: qsTr("")
                 width: parent.width
                 anchors.right: parent.right
                 font.pixelSize: 14
@@ -91,12 +102,13 @@ Window {
                 anchors.topMargin: 0
             }
 
-            TextEdit {
+            TextEdit
+            {
                 id: teUserInput
                 width: parent.width
                 height: parent.height / 2
                 color: "#000000"
-                text: qsTr("1230")
+                text: qsTr("0")
                 anchors.right: parent.right
                 font.pixelSize: 36
                 horizontalAlignment: Text.AlignRight
@@ -111,51 +123,68 @@ Window {
             id: memory
             width: mainWindowsLayout.width
             height: 30
+            /* ?
+            columns: 4
+            rows: 6
+            */
 
-            Button {
+            Button
+            {
                 id: btnMemoryClearAll
                 width: parent.width / 6
                 height: parent.height
                 text: qsTr("MC")
+                onClicked: debugMemoryButtonStub(this.text)
             }
 
-            Button {
+            Button
+            {
                 id: btnMemoryRecall
                 width: parent.width / 6
                 height: parent.height
                 text: qsTr("MR")
+                onClicked: debugMemoryButtonStub(this.text)
             }
 
-            Button {
+            Button
+            {
                 id: btnMemoryAdd
                 width: parent.width / 6
                 height: parent.height
                 text: qsTr("M+")
+                onClicked: debugMemoryButtonStub(this.text)
             }
 
-            Button {
+            Button
+            {
                 id: btnMemoryRemove
                 width: parent.width / 6
                 height: parent.height
                 text: qsTr("M-")
+                onClicked: debugMemoryButtonStub(this.text)
             }
 
-            Button {
+            Button
+            {
                 id: btnMemoryStore
                 width: parent.width / 6
                 height: parent.height
                 text: qsTr("MS")
+                onClicked: debugMemoryButtonStub(this.text)
             }
 
-            Button {
+            Button
+            {
                 id: btnMemoryManage
                 width: parent.width / 6
                 height: parent.height
                 text: qsTr("M*")
+                onClicked: debugMemoryButtonStub(this.text)
             }
         }
 
-        Grid {
+        Grid
+        {
             id: input
             width: mainWindowsLayout.width
             height: mainWindowsLayout.height - tools.height - memory.height - output.height
@@ -163,175 +192,272 @@ Window {
             columns: 4
             rows: 6
 
-            Button {
+            FunctionalButton
+            {
                 id: btnPercentage
-                width: parent.width / parent.columns
-                height: parent.height / parent.rows
                 text: qsTr("%")
             }
 
-            Button {
+            Button
+            {
                 id: btnCE
-                width: parent.width / parent.columns
-                height: parent.height / parent.rows
                 text: qsTr("CE")
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+                onClicked: debugClearNumber(this.text)
             }
 
-            Button {
+            Button
+            {
                 id: btnC
-                width: parent.width / parent.columns
-                height: parent.height / parent.rows
                 text: qsTr("C")
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+                onClicked: debugClearNumber(this.text)
             }
 
-            Button {
+            Button
+            {
                 id: btnDelete
+                text: qsTr("Del")
                 width: parent.width / parent.columns
                 height: parent.height / parent.rows
-                text: qsTr("Del")
+                onClicked: debugClearDigit(this.text)
             }
 
-            Button {
+            FunctionalButton
+            {
                 id: btnRecipical
-                width: parent.width / parent.columns
-                height: parent.height / parent.rows
                 text: qsTr("1/x")
             }
 
-            Button {
+            FunctionalButton
+            {
                 id: btnPower2
-                width: parent.width / parent.columns
-                height: parent.height / parent.rows
                 text: qsTr("x * x")
             }
 
-            Button {
+            FunctionalButton
+            {
                 id: btnRoot2
-                width: parent.width / parent.columns
-                height: parent.height / parent.rows
                 text: qsTr("sqrt x")
             }
 
-            Button {
-                id: btnDivide
-                width: parent.width / parent.columns
-                height: parent.height / parent.rows
-                text: qsTr("/")
+            OperationButton
+            {
+                id: btnDivision
+                operation: "/"
+                text: qsTr(operation)
             }
 
-            Button {
+            NumericButton
+            {
                 id: btnSeven
-                width: parent.width / parent.columns
-                height: parent.height / parent.rows
-                text: qsTr("7")
+                digit: "7"
+                text: qsTr(digit)
             }
 
-            Button {
+            NumericButton
+            {
                 id: btnEight
-                width: parent.width / parent.columns
-                height: parent.height / parent.rows
-                text: qsTr("8")
+                digit: "8"
+                text: qsTr(digit)
             }
 
-            Button {
+            NumericButton
+            {
                 id: btnNine
-                width: parent.width / parent.columns
-                height: parent.height / parent.rows
-                text: qsTr("9")
+                digit: "9"
+                text: qsTr(digit)
             }
 
-            Button {
-                id: btnMultiply
-                width: parent.width / parent.columns
-                height: parent.height / parent.rows
-                text: qsTr("*")
+            OperationButton
+            {
+                id: btnMultiplication
+                operation: "*"
+                text: qsTr(operation)
             }
 
-            Button {
+            NumericButton
+            {
                 id: btnFour
-                width: parent.width / parent.columns
-                height: parent.height / parent.rows
-                text: qsTr("4")
+                digit: "4"
+                text: qsTr(digit)
             }
 
-            Button {
+            NumericButton
+            {
                 id: btnFive
-                width: parent.width / parent.columns
-                height: parent.height / parent.rows
-                text: qsTr("5")
+                digit: "5"
+                text: qsTr(digit)
             }
 
-            Button {
+            NumericButton
+            {
                 id: btnSix
-                width: parent.width / parent.columns
-                height: parent.height / parent.rows
-                text: qsTr("6")
+                digit: "6"
+                text: qsTr(digit)
             }
 
-            Button {
-                id: btnSubstract
-                width: parent.width / parent.columns
-                height: parent.height / parent.rows
-                text: qsTr("-")
+            OperationButton
+            {
+                id: btnSubstraction
+                operation: "-"
+                text: qsTr(operation)
             }
 
-            Button {
+            NumericButton
+            {
                 id: btnOne
-                width: parent.width / parent.columns
-                height: parent.height / parent.rows
-                text: qsTr("1")
+                digit: "1"
+                text: qsTr(digit)
             }
 
-            Button {
+            NumericButton
+            {
                 id: btnTwo
-                width: parent.width / parent.columns
-                height: parent.height / parent.rows
-                text: qsTr("2")
+                digit: "2"
+                text: qsTr(digit)
             }
 
-            Button {
+            NumericButton
+            {
                 id: btnThree
-                width: parent.width / parent.columns
-                height: parent.height / parent.rows
-                text: qsTr("3")
+                digit: "3"
+                text: qsTr(digit)
             }
 
-            Button {
+            OperationButton
+            {
                 id: btnAddition
-                width: parent.width / parent.columns
-                height: parent.height / parent.rows
-                text: qsTr("+")
+                operation: "+"
+                text: qsTr(operation)
             }
 
-            Button {
+            FunctionalButton
+            {
                 id: btnNegate
-                width: parent.width / parent.columns
-                height: parent.height / parent.rows
                 text: qsTr("+/-")
             }
 
-            Button {
+            NumericButton
+            {
                 id: btnZero
-                width: parent.width / parent.columns
-                height: parent.height / parent.rows
-                text: qsTr("0")
+                digit: "0"
+                text: qsTr(digit)
             }
 
-            Button {
+            FunctionalButton
+            {
                 id: btnDot
-                width: parent.width / parent.columns
-                height: parent.height / parent.rows
                 text: qsTr(".")
             }
 
-            Button {
+            Button
+            {
                 id: btnEquals
+                text: qsTr("=")
                 width: parent.width / parent.columns
                 height: parent.height / parent.rows
-                text: qsTr("=")
+                onClicked: debugCalculateOperation(this.text);
             }
 
         }
+    }
+
+    function debugPrintButtonText(token: string)
+    {
+        console.log("\'" + token + "\'" + " button clicked!");
+    }
+
+    function debugAppendNumber(buttonText : string, buttonDigit : string)
+    {
+        debugPrintButtonText(buttonText);
+        if (teUserInput.text.length < 9) // as constant <treshold>
+        {
+            if (teUserInput.text === "0")
+            {
+                teUserInput.text = buttonDigit;
+            }
+            else
+            {
+                if (operation !== '#' && isOverwritableState)
+                {
+                    teUserInput.text = buttonDigit;
+                    isOverwritableState = false;
+                }
+                else
+                {
+                    teUserInput.text = teUserInput.text + buttonDigit;
+                }
+            }
+        }
+        else
+        {
+            console.log("Can`t insert more than 9 digits to line");
+        }
+    }
+
+    function debugClearDigit(buttonText : string)
+    {
+        debugPrintButtonText(buttonText);
+
+        teUserInput.text = teUserInput.text.substr(0, teUserInput.text.length - 1);
+        if (teUserInput.text.length < 1)
+        {
+            teUserInput.text = "0";
+        }
+         // pop_back?
+        console.log("lenght: " + teUserInput.text.length);
+    }
+
+    function debugClearNumber(buttonText : string)
+    {
+        debugPrintButtonText(buttonText);
+
+        calculationResult = 0
+        argument1 = 0
+
+        lblUserInput.text = "";
+        teUserInput.text = "0";
+
+        console.log("lenght: " + teUserInput.text.length);
+    }
+
+    function debugUpdateOperation(buttonText : string, buttonOperation : string)
+    {
+        debugPrintButtonText(buttonText);
+
+        operation = buttonOperation;
+        isOverwritableState = true;
+
+        lblUserInput.text = teUserInput.text + " " + operation;
+
+        calculationResult = parseInt(teUserInput.text);
+    }
+
+    function debugCalculateOperation(buttonText : string)
+    {
+        debugPrintButtonText(buttonText);
+        lblUserInput.text = calculationResult + " " + operation + " " + teUserInput.text + " = ";
+
+        argument1 = parseInt(teUserInput.text);
+        switch(operation)
+        {
+            case '+': calculationResult += argument1; break;
+            case '-': calculationResult -= argument1; break;
+            case '*': calculationResult *= argument1; break;
+            case '/': calculationResult /= argument1; break;
+        }
+
+        teUserInput.text = calculationResult;
+    }
+
+
+
+    function debugMemoryButtonStub(buttonText : string)
+    {
+        debugPrintButtonText(buttonText);
     }
 }
 
