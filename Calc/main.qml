@@ -1,3 +1,12 @@
+// ToDo: [issue]    <0 - x> operation
+// ToDo: [next]     add functionality to functional buttons
+// ToDo: [next]     add functionality to memory buttons
+// ToDo: [next]     add style
+// ToDo: [next]     add effects
+// ToDo: [next]     move constants to separete file
+// ToDo: [next]     move JS code to separete file
+
+
 import QtQuick
 import QtQuick.Controls
 
@@ -5,19 +14,26 @@ Window
 {
     id: mainWindow
 
+    // Used for detecting basic math operation: +-/*
     property string operation: '#';
+
+    // Main calculation storage
     property double calculationResult: 0;
     property double argument1: 0;
+
+    // Not used for now
     property double argument2: 0;
+
+    // Used for change input state from "Append" to "Overrite and append" and viseversa
     property bool   isOverwritableState: true;
 
     width: 320
     height: 480
     opacity: 0.99
     visible: true
-    flags: Qt.Window
     minimumHeight: 480
     minimumWidth: 320
+    flags: Qt.Window
     color: "red"
     title: qsTr("Calculator")
 
@@ -30,22 +46,21 @@ Window
         anchors.rightMargin: 5
         anchors.bottomMargin: 5
 
-        Row {
+        Row
+        {
             id: tools
-            x: parent.leftPadding
-            y: parent.topPadding
             width: parent.width
             height: 30
 
-            Button {
+            Button
+            {
                 id: btnOpenNavigation
-                x: parent.anchors.leftMargin
-                y: parent.anchors.topMargin
                 width: 40
                 height: parent.height
             }
 
-            Text {
+            Text
+            {
                 id: lblDisplayedMode
                 width: 120
                 height: parent.height
@@ -59,33 +74,25 @@ Window
                 font.family: "Verdana"
             }
 
-            Button {
+            Button
+            {
                 id: btnKeepOnTop
-                y: parent.anchors.topMargin
                 width: 40
                 height: parent.height
             }
 
-            Item {
-                id: sprTools1
-                x: btnKeepOnTop.anchors.rightMargin
-                y: tools.anchors.topMargin
-                width: 60
-                height: parent.height
-            }
-
-            Button {
+            Button
+            {
                 id: btnHistory
-                width: 40
                 x: parent.width - width - 5
+                width: 40
                 height: parent.height
             }
-
         }
 
         Column
         {
-            id: output
+            id: outputDisplay
             width: mainWindowsLayout.width
             height: 100
 
@@ -119,75 +126,90 @@ Window
             }
         }
 
-        Row {
-            id: memory
+        Row
+        {
+            id: memoryButtons
+
+            property int columnsPerRow: 6
+
             width: mainWindowsLayout.width
             height: 30
-            /* ?
-            columns: 4
-            rows: 6
-            */
 
             Button
             {
                 id: btnMemoryClearAll
-                width: parent.width / 6
+
+                width: parent.width / parent.columnsPerRow
                 height: parent.height
                 text: qsTr("MC")
+                enabled: false
+
                 onClicked: debugMemoryButtonStub(this.text)
             }
 
             Button
             {
                 id: btnMemoryRecall
-                width: parent.width / 6
+
+                width: parent.width / parent.columnsPerRow
                 height: parent.height
                 text: qsTr("MR")
+                enabled: false
+
                 onClicked: debugMemoryButtonStub(this.text)
             }
 
             Button
             {
                 id: btnMemoryAdd
-                width: parent.width / 6
+
+                width: parent.width / parent.columnsPerRow
                 height: parent.height
                 text: qsTr("M+")
+
                 onClicked: debugMemoryButtonStub(this.text)
             }
 
             Button
             {
                 id: btnMemoryRemove
-                width: parent.width / 6
+
+                width: parent.width / parent.columnsPerRow
                 height: parent.height
                 text: qsTr("M-")
+
                 onClicked: debugMemoryButtonStub(this.text)
             }
 
             Button
             {
                 id: btnMemoryStore
-                width: parent.width / 6
+
+                width: parent.width / parent.columnsPerRow
                 height: parent.height
                 text: qsTr("MS")
+
                 onClicked: debugMemoryButtonStub(this.text)
             }
 
             Button
             {
                 id: btnMemoryManage
-                width: parent.width / 6
+
+                width: parent.width / parent.columnsPerRow
                 height: parent.height
                 text: qsTr("M*")
+                enabled: false
+
                 onClicked: debugMemoryButtonStub(this.text)
             }
         }
 
         Grid
         {
-            id: input
+            id: inputButtons
             width: mainWindowsLayout.width
-            height: mainWindowsLayout.height - tools.height - memory.height - output.height
+            height: mainWindowsLayout.height - tools.height - memoryButtons.height - outputDisplay.height
             spacing: 1
             columns: 4
             rows: 6
@@ -201,46 +223,67 @@ Window
             Button
             {
                 id: btnCE
+
                 text: qsTr("CE")
                 width: parent.width / parent.columns
                 height: parent.height / parent.rows
-                onClicked: debugClearNumber(this.text)
+
+                onClicked: debugResetCalculator(this.text)
             }
 
             Button
             {
                 id: btnC
+
                 text: qsTr("C")
                 width: parent.width / parent.columns
                 height: parent.height / parent.rows
-                onClicked: debugClearNumber(this.text)
+
+                onClicked: debugResetCalculator(this.text)
             }
 
             Button
             {
                 id: btnDelete
+
                 text: qsTr("Del")
                 width: parent.width / parent.columns
                 height: parent.height / parent.rows
-                onClicked: debugClearDigit(this.text)
+
+                onClicked: debugRemoveLastDigit(this.text)
             }
 
-            FunctionalButton
+            Button
             {
-                id: btnRecipical
+                id: btnInverse
+
                 text: qsTr("1/x")
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+
+                onClicked: debugInverseButtonClickedHandler(this.text)
             }
 
-            FunctionalButton
+            Button
             {
                 id: btnPower2
+
                 text: qsTr("x * x")
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+
+                onClicked: debugPower2ButtonClickedHandler(this.text)
             }
 
-            FunctionalButton
+            Button
             {
                 id: btnRoot2
+
                 text: qsTr("sqrt x")
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+
+                onClicked: debugRoot2ButtonClickedHandler(this.text)
             }
 
             OperationButton
@@ -334,10 +377,15 @@ Window
                 text: qsTr(operation)
             }
 
-            FunctionalButton
+            Button
             {
-                id: btnNegate
+                id: btnNegation
                 text: qsTr("+/-")
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+
+                onClicked: debugNegationButtonClickedHandler(this.text);
+
             }
 
             NumericButton
@@ -350,26 +398,35 @@ Window
             FunctionalButton
             {
                 id: btnDot
+
                 text: qsTr(".")
+                width: parent.width / parent.columns
+                height: parent.height / parent.rows
+
+                onClicked: debugDotButtonClickedHandler(this.text);
             }
 
             Button
             {
                 id: btnEquals
+
                 text: qsTr("=")
                 width: parent.width / parent.columns
                 height: parent.height / parent.rows
+
                 onClicked: debugCalculateOperation(this.text);
             }
 
         }
     }
 
+    // rename
     function debugPrintButtonText(token: string)
     {
         console.log("\'" + token + "\'" + " button clicked!");
     }
 
+    // ToDo: Refactor
     function debugAppendNumber(buttonText : string, buttonDigit : string)
     {
         debugPrintButtonText(buttonText);
@@ -398,7 +455,7 @@ Window
         }
     }
 
-    function debugClearDigit(buttonText : string)
+    function debugRemoveLastDigit(buttonText : string)
     {
         debugPrintButtonText(buttonText);
 
@@ -411,7 +468,7 @@ Window
         console.log("lenght: " + teUserInput.text.length);
     }
 
-    function debugClearNumber(buttonText : string)
+    function debugResetCalculator(buttonText : string)
     {
         debugPrintButtonText(buttonText);
 
@@ -433,7 +490,7 @@ Window
 
         lblUserInput.text = teUserInput.text + " " + operation;
 
-        calculationResult = parseInt(teUserInput.text);
+        calculationResult = parseFloat(teUserInput.text);
     }
 
     function debugCalculateOperation(buttonText : string)
@@ -441,7 +498,7 @@ Window
         debugPrintButtonText(buttonText);
         lblUserInput.text = calculationResult + " " + operation + " " + teUserInput.text + " = ";
 
-        argument1 = parseInt(teUserInput.text);
+        argument1 = parseFloat(teUserInput.text);
         switch(operation)
         {
             case '+': calculationResult += argument1; break;
@@ -453,7 +510,66 @@ Window
         teUserInput.text = calculationResult;
     }
 
+    // ToDo: Refactor
+    function debugNegationButtonClickedHandler(buttonText : string)
+    {
+        debugPrintButtonText(buttonText);
+        if (teUserInput.text !== '0')
+        {
+            if(teUserInput.text[0] !== '-')
+            {
+                teUserInput.text = '-' + teUserInput.text;
+            }
+            else
+            {
+                teUserInput.text = teUserInput.text.substr(1);
+            }
+        }
+    }
 
+    function debugPower2ButtonClickedHandler(buttonText : string)
+    {
+        debugPrintButtonText(buttonText);
+
+        const parsedArgument = parseFloat(teUserInput.text);
+        const parsedArgumentSquare = parsedArgument * parsedArgument;
+
+        teUserInput.text = parsedArgumentSquare;
+        lblUserInput.text += " sqr(" + parsedArgument + ")";
+    }
+
+    function debugRoot2ButtonClickedHandler(buttonText : string)
+    {
+        debugPrintButtonText(buttonText);
+
+        const parsedArgument = parseFloat(teUserInput.text);
+        const parsedArgumentRoot = Math.sqrt(parsedArgument);
+
+        teUserInput.text = parsedArgumentRoot;
+        lblUserInput.text += " sqrt(" + parsedArgument + ")";
+    }
+
+    function debugInverseButtonClickedHandler(buttonText : string)
+    {
+        debugPrintButtonText(buttonText);
+
+        const parsedArgument = parseFloat(teUserInput.text);
+        const parsedArgumentInverse = 1.0 / parsedArgument;
+
+        teUserInput.text = parsedArgumentInverse;
+        lblUserInput.text += " 1 / (" + parsedArgument + ")";
+    }
+
+    function debugDotButtonClickedHandler(buttonText : string)
+    {
+        debugPrintButtonText(buttonText);
+
+        const dotSign = '.';
+        if (teUserInput.text.indexOf(dotSign) === -1)
+        {
+            teUserInput.text += dotSign;
+        }
+    }
 
     function debugMemoryButtonStub(buttonText : string)
     {

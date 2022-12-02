@@ -1,5 +1,6 @@
 build-Calc-Desktop_Qt_6_3_0_MSVC2019_64bit-Debug/
 Calc.pro.user
+token.txt
 
 Release/
 *.vs/
