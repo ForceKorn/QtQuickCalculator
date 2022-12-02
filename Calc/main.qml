@@ -1,5 +1,5 @@
+// ToDo: [task]     find and fix bugs
 // ToDo: [issue]    <0 - x> operation
-// ToDo: [next]     add functionality to functional buttons
 // ToDo: [next]     add functionality to memory buttons
 // ToDo: [next]     add style
 // ToDo: [next]     add effects
